@@ -14,7 +14,12 @@ const routes = [
       path : '/result',
       name : 'acronym-result',
       component: () => import(/* webpackChunkName: "acronymResult" */ '@/UseCases/createAcronym/AcronymResult.vue')
-  }
+  },
+  {
+    path : '/about',
+    name : 'about',
+    component: () => import(/* webpackChunkName: "acronymResult" */ '@/views/About.vue')
+}
 ];
 
 const router = new VueRouter({

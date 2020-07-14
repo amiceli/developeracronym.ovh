@@ -8,9 +8,20 @@ const SearchStore = new Vuex.Store({
     state: {
         loading: false,
         topics: [],
-        rateLimit : false
+        rateLimit: false,
+        definitions : 0,
     },
     actions: {
+        async loadAcronymDefinition(ctx, acronym) {
+            return new Promise(async (resolve) => {
+                const options = { params: { acronym } }
+                const { data } = await axios.get('/.netlify/functions/scrap-acronyms', options)
+
+                ctx.commit('countDefinition', data)
+
+                resolve(data)
+            })
+        },
         async searchTopicsOnGithub(ctx, search) {
             const options = {
                 params: { q: search },
@@ -45,8 +56,11 @@ const SearchStore = new Vuex.Store({
         clear(state) {
             state.topics = []
         },
-        rateLimit (state, value) {
+        rateLimit(state, value) {
             state.rateLimit = value
+        },
+        countDefinition (state, definitions) {
+            state.definitions += definitions.length
         }
     }
 })

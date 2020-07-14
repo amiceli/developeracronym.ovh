@@ -9,7 +9,7 @@
                 @keyup="searchTopics()"
                 :disabled="acronyms.length === limit"
             />
-            <div v-if="topics.length > 0 || isLoading && !rateLimit">
+            <div v-if="(topics.length > 0 || isLoading) && !rateLimit">
                 <HollowDotsSpinner
                     v-if="isLoading"
                     color="#4C566A"
@@ -22,7 +22,10 @@
                     {{ topic }}
                 </span>
             </div>
-            <div v-if="rateLimit" class="has--error">
+            <div
+                v-if="rateLimit"
+                class="has--error"
+            >
                 <span>
                     Search limit execeeded, try later...
                 </span>
@@ -75,7 +78,8 @@ export default {
     components: { HollowDotsSpinner },
     data() {
         return {
-            acronym: ""
+            acronym: "",
+            focused: false
         };
     },
     computed: {
@@ -91,19 +95,20 @@ export default {
         isLoading() {
             return SearchStore.state.loading;
         },
-        rateLimit () {
-            return SearchStore.state.rateLimit
+        rateLimit() {
+            return SearchStore.state.rateLimit;
         }
     },
     methods: {
-        addTopic (topic) {
+        addTopic(topic) {
             this.$store.commit("addAcronym", topic);
             this.acronym = "";
-            SearchStore.commit('clear')
+            SearchStore.commit("clear");
         },
         addAcronym() {
             this.$store.commit("addAcronym", this.acronym);
             this.acronym = "";
+            SearchStore.commit("clear");
         },
         removeAcronym(acronym) {
             this.$store.commit("removeAcronym", acronym);
@@ -196,8 +201,8 @@ $itemSize: 40px;
         div {
             position: absolute;
             z-index: 2;
-            background : white;
-            box-shadow : 0 0 2px $nord4;
+            background: white;
+            box-shadow: 0 0 2px $nord4;
             width: 100%;
             height: 200px;
             overflow: scroll;
@@ -205,7 +210,7 @@ $itemSize: 40px;
             &.has--error {
                 height: unset;
                 span {
-                    color : $nord11;
+                    color: $nord11;
                 }
             }
 
@@ -216,11 +221,11 @@ $itemSize: 40px;
                 width: 100%;
                 height: 40px;
                 line-height: 40px;
-                color : $nord3;
+                color: $nord3;
                 padding-left: 20px;
 
                 &:hover {
-                    background : $nord4;
+                    background: $nord4;
                     cursor: pointer;
                 }
             }

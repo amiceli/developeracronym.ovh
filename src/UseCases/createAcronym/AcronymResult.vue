@@ -1,34 +1,21 @@
 <template>
     <div class="ac-result">
-        <div
-            class="ac-result__share"
-            :class="{'is--open' : openShareModal}"
-        >
-            <div
-                class="for--badge"
-                @click="openShareModal = false"
-            >
-                close
-            </div>
-            <div>
-                <p>
-                    Break rules, share your own acronym !
-                </p>
-                <br>
-                <div
-                    class="shareon"
-                    data-title="acronymdeveloper.ovh - your technologies, your acronym"
-                >
-                    <a
-                        class="facebook"
-                        data-title="Custom WhatsApp title"
-                    >
-                    </a>
-                    <a class="linkedin"></a>
-                    <a class="reddit"></a>
-                </div>
-            </div>
+
+        <div class="ac-result__stats">
+            <h1>
+                <Counter :value="combinations.length" />
+                <small>
+                    combinations available
+                </small>
+            </h1>
+            <h1>
+                <Counter :value="countDefinitions" />
+                <small>
+                    definitions found
+                </small>
+            </h1>
         </div>
+
         <div
             class="ac-result__letters"
             :style="getGridTemplate()"
@@ -40,16 +27,19 @@
                 {{ acronym }}
             </span>
         </div>
+
         <p>
             Generated acronyms
         </p>
+
         <div
             v-for="(combination, index) in combinations"
             :key="`combination-${index}`"
+            class="ac-result__item"
         >
             <div
-                class="ac-result__letters is--small"
                 :style="getGridTemplate(true)"
+                class="ac-result__item__grid"
             >
                 <span
                     v-for="(item, index) in combination"
@@ -57,6 +47,18 @@
                 >
                     {{ item }}
                 </span>
+            </div>
+
+            <div>
+                <AcronymDefinition :acronym="combination.join('')" />
+            </div>
+
+            <!-- <div
+                class="is--small"
+                :style="getGridTemplate(true)"
+            >
+                
+
                 <div>
                     <button
                         class="is--primary"
@@ -66,7 +68,21 @@
                     </button>
                 </div>
             </div>
+             -->
         </div>
+
+        <!-- <div
+            class="ac-result__share"
+            :class="{'is--open' : openShareModal}"
+        >
+            <ShareAcronymModal @close="openShareModal = false" />
+        </div>
+
+        
+
+        
+
+         -->
 
     </div>
 </template>
@@ -74,11 +90,15 @@
 <script>
 import AcronymStore from "./AcronymStore";
 import permute from "./permute";
-import initializeShareon from "shareon";
 import "shareon/dist/shareon.min.css";
+import AcronymDefinition from "./AcronymDefinition.vue";
+import ShareAcronymModal from "@/UseCases/shareAcronym/ShareAcronymModal.vue";
+import Counter from "@/UI/Counter.vue";
+import SearchStore from './SearchStore';
 
 export default {
     store: AcronymStore,
+    components: { AcronymDefinition, ShareAcronymModal, Counter },
     computed: {
         acronyms() {
             return this.$store.state.acronyms;
@@ -86,6 +106,9 @@ export default {
         combinations() {
             return permute(this.acronyms.map(n => n[0].toUpperCase()));
         },
+        countDefinitions () {
+            return SearchStore.state.definitions
+        }
     },
     data() {
         return { openShareModal: false, selectedCombination: null };
@@ -98,8 +121,13 @@ export default {
     methods: {
         getGridTemplate(extended) {
             if (extended) {
+                const w =
+                    this.acronyms.length * 100 +
+                    (this.acronyms.length - 1) * 20;
                 return {
-                    "grid-template-columns": `repeat(${this.acronyms.length}, 100px) 100px`
+                    "grid-template-columns": `repeat(${this.acronyms.length}, 100px)`,
+                    width: `${w}px`,
+                    "grid-gap": "20px"
                 };
             } else {
                 return {
@@ -108,10 +136,6 @@ export default {
             }
         },
         share(combination) {
-            if (this.openShareModal === false) {
-                initializeShareon();
-            }
-
             this.openShareModal = true;
             this.selectedCombination = combination;
         }
@@ -124,75 +148,61 @@ export default {
     text-align: center;
     padding-bottom: 50px;
     position: relative;
+    justify-content: center;
 
-    &__share {
-        $modalWidth: 400px;
+    &__stats {
+        $gridItem: 400px;
+        $gridGap: 20px;
+        display: grid;
+        grid-template-columns: $gridItem $gridItem;
+        grid-gap: 20px;
+        width: ($gridItem * 2) + ($gridGap);
+        margin-left: auto;
+        margin-right: auto;
 
-        position: absolute;
-        top: 100px;
-        right: -$modalWidth;
-        width: $modalWidth;
-        height: 200px;
-        background: $nord4;
-        transition: right linear 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 2px $nord3;
+        h1 {
+            font-size: 30px;
+            height: 80px;
+            line-height: 80px;
+            color: $nord3;
 
-        .for--badge {
-            position: absolute;
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 6px;
-            height: 25px;
-            line-height: 25px;
-            color: $nord4;
-            background: $nord3;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-
-            &:hover {
-                background: $nord2;
+            small {
+                font-size: 20px;
+                padding-left: 7px;
             }
-        }
-
-        div {
-            display: inline-block;
-            text-align: center;
-        }
-
-        &.is--open {
-            right: 0;
         }
     }
 
     &__letters {
         display: inline-grid;
-        grid-gap: 10px;
+        position: relative;
+        background: transparent;
+        transition: background linear 0.2s;
+        grid-gap: 20px;
+
+        &:hover {
+
+            button {
+                opacity: 1 !important;
+            }
+        }
 
         &:not(.is--small) {
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
-        &.is--small {
+        .is--small {
+            display: inline-grid;
+            grid-gap: 10px;
             margin-top: 20px;
             padding: 4px;
-            background: transparent;
-            transition: background linear 0.2s;
 
             button {
                 opacity: 0.1;
-            }
-
-            &:hover {
-                background: $nord10;
-
-                button {
-                    opacity: 1;
-                }
+                position: absolute;
+                right: 10px;
+                top: 15px;
             }
         }
 
@@ -210,6 +220,39 @@ export default {
             button {
                 text-transform: lowercase !important;
             }
+        }
+    }
+
+    &__item {
+        margin-top: 40px;
+
+        &__grid {
+            display: grid;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+
+            span {
+                height: 40px;
+                line-height: 40px;
+                color: $nord3;
+                background: $nord4;
+                display: inline-block;
+            }
+        }
+    }
+
+    //
+
+    &__share {
+        top: 100px;
+        right: -400px;
+        position: absolute;
+        transition: right linear 0.3s;
+        z-index: 2;
+
+        &.is--open {
+            right: 0;
         }
     }
 }

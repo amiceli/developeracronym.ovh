@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import url('https://fonts.googleapis.com/css2?family=Exo:wght@200;300;400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Exo:wght@200;300;400,600&display=swap');
 
     html, body {
         font-family: 'Exo', sans-serif;
