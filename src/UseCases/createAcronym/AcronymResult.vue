@@ -244,7 +244,7 @@ export default {
     //
 
     &__share {
-        top: 100px;
+        top: 310px;
         right: -400px;
         position: fixed;
         transition: right linear 0.3s;

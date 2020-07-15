@@ -16,8 +16,8 @@
             <br>
             <div
                 class="shareon"
+                data-url="https://acronymdeveloper.co"
                 :data-title="title"
-                data-url="https://developeracronym.co"
             >
                 <a class="facebook"></a>
                 <a class="linkedin"></a>
