@@ -80,7 +80,7 @@
 <script>
 import AcronymStore from "./AcronymStore";
 import permute from "./permute";
-import "shareon/dist/shareon.min.css";
+import "@amiceli/shareon/dist/shareon.min.css";
 import AcronymDefinition from "./AcronymDefinition.vue";
 import ShareAcronymModal from "@/UseCases/shareAcronym/ShareAcronymModal.vue";
 import Counter from "@/UI/Counter.vue";
