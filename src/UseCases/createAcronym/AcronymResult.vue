@@ -53,36 +53,26 @@
                 <AcronymDefinition :acronym="combination.join('')" />
             </div>
 
-            <!-- <div
-                class="is--small"
-                :style="getGridTemplate(true)"
-            >
-                
-
-                <div>
-                    <button
-                        class="is--primary"
-                        @click="share(combination)"
-                    >
-                        share
-                    </button>
-                </div>
+            <div>
+                <button
+                    class="is--primary"
+                    @click="share(combination)"
+                >
+                    share
+                </button>
             </div>
-             -->
         </div>
 
-        <!-- <div
+        <div
             class="ac-result__share"
             :class="{'is--open' : openShareModal}"
         >
-            <ShareAcronymModal @close="openShareModal = false" />
+            <ShareAcronymModal
+                v-if="selectedAcronym !== null"
+                @close="openShareModal = false"
+                :acronym="selectedAcronym"
+            />
         </div>
-
-        
-
-        
-
-         -->
 
     </div>
 </template>
@@ -94,7 +84,7 @@ import "shareon/dist/shareon.min.css";
 import AcronymDefinition from "./AcronymDefinition.vue";
 import ShareAcronymModal from "@/UseCases/shareAcronym/ShareAcronymModal.vue";
 import Counter from "@/UI/Counter.vue";
-import SearchStore from './SearchStore';
+import SearchStore from "./SearchStore";
 
 export default {
     store: AcronymStore,
@@ -106,12 +96,22 @@ export default {
         combinations() {
             return permute(this.acronyms.map(n => n[0].toUpperCase()));
         },
-        countDefinitions () {
-            return SearchStore.state.definitions
+        countDefinitions() {
+            return SearchStore.state.definitions;
+        },
+        selectedAcronym() {
+            if (this.selectedCombination) {
+                return this.selectedCombination.join("");
+            }
+
+            return null;
         }
     },
     data() {
-        return { openShareModal: false, selectedCombination: null };
+        return {
+            openShareModal: false,
+            selectedCombination: null
+        };
     },
     mounted() {
         if (this.acronyms.length === 0) {
@@ -181,7 +181,6 @@ export default {
         grid-gap: 20px;
 
         &:hover {
-
             button {
                 opacity: 1 !important;
             }
@@ -247,7 +246,7 @@ export default {
     &__share {
         top: 100px;
         right: -400px;
-        position: absolute;
+        position: fixed;
         transition: right linear 0.3s;
         z-index: 2;
 

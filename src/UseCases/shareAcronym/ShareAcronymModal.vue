@@ -10,16 +10,16 @@
             <p>
                 Break rules, share your own acronym !
             </p>
+            <p>
+                {{ title }}
+            </p>
             <br>
             <div
                 class="shareon"
-                data-title="acronymdeveloper.ovh - your technologies, your acronym"
+                :data-title="title"
+                data-url="https://developeracronym.co"
             >
-                <a
-                    class="facebook"
-                    data-title="Custom WhatsApp title"
-                >
-                </a>
+                <a class="facebook"></a>
                 <a class="linkedin"></a>
                 <a class="reddit"></a>
             </div>
@@ -28,10 +28,19 @@
 </template>
 
 <script>
-// import initializeShareon from "shareon";
+import initializeShareon from "@amiceli/shareon";
+
 export default {
+    props: {
+        acronym: { type: String, required: true }
+    },
+    computed: {
+        title() {
+            return `acronymdeveloper.co - I'm a ${this.acronym} developer !`;
+        }
+    },
     mounted() {
-        // initializeShareon();
+        initializeShareon();
     }
 };
 </script>
