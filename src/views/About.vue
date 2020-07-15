@@ -23,6 +23,18 @@
             This website is built with Vue and Nodejs for netlify serverless functions. <br>
             It's deployed on Netlify. <br>
             I Use Nord CSS color palette.
+
+            <br>
+            <br>
+
+            Favicon generated with
+            <a
+                href="https://favicon.io/favicon-generator/"
+                rel="noopener noreferrer"
+                target="_blank"
+            >
+                https://favicon.io/favicon-generator/
+            </a>
         </p>
         <h1>
             allacronyms.com
