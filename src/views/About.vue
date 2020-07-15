@@ -4,15 +4,15 @@
             Me
         </h1>
         <p>
-            My name is Toni's, I'm a french web developper and I build
+            My name is Antoine, I'm a french web developper and I build
             stupid (or fun) website when I'm bored.
         </p>
         <h1>
-            developeracronym.ovh
+            developeracronym.co
         </h1>
         <p>
             I was hanging out at Linkedin, and I saw friends with title like developer MERN or MEAN. <br>
-            I figured, why I don't have an acronym like this. <br>
+            I figured, why I don't have an acronym like this? <br>
             So I create this website ! <br>
             I work with Vue, Typescript and Php so now, I'm a VTP web developer !
         </p>
