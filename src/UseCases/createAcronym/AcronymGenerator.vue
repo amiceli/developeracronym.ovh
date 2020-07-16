@@ -33,7 +33,7 @@
         </div>
         <br>
         <p v-if="acronyms.length === 0">
-            You need almost 3 technologies
+            Choose at least 3 technologies
         </p>
         <div
             v-else
