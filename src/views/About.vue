@@ -4,16 +4,15 @@
             Me
         </h1>
         <p>
-            My name is Antoine, I'm a french web developper and I build
-            stupid (or fun) website when I'm bored.
+            My name is Antoine; I'm a French web developer and I build stupid (or fun) websites when I'm bored
         </p>
         <h1>
             developeracronym.co
         </h1>
         <p>
-            I was hanging out at Linkedin, and I saw friends with title like developer MERN or MEAN. <br>
-            I figured, why I don't have an acronym like this? <br>
-            So I create this website ! <br>
+            I was hanging out on LinkedIn, and I saw friends with job titles like developer MERN or MEAN. <br>
+            I figured, why I don't I have an acronym like this? <br>
+            So I created this website! <br>
             I work with Vue, Typescript and Php so now, I'm a VTP web developer !
         </p>
         <h1>
@@ -40,7 +39,7 @@
             allacronyms.com
         </h1>
         <p>
-            I didn't found API to search acronym, currently I "scrap" results from
+            I didn't found an API to search for acronym, currently I "scrap" results from
             <a href="https://www.allacronyms.com/">
                 https://www.allacronyms.com/
             </a>
