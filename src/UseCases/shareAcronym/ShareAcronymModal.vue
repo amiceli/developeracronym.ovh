@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import initializeShareon from "@amiceli/shareon";
+import shareon from "shareon";
 
 export default {
     props: {
@@ -40,7 +40,7 @@ export default {
         }
     },
     mounted() {
-        initializeShareon();
+        shareon();
     }
 };
 </script>
